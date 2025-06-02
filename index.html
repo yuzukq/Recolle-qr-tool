@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <title>Recolle QRコードジェネレーター</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <script src="https://cdn.jsdelivr.net/npm/qr-code-styling@1.5.0/lib/qr-code-styling.js"></script>
+  <style>
+    body {
+      background-color: #fff8e7;
+      font-family: 'Segoe UI', sans-serif;
+      text-align: center;
+      padding: 2em;
+    }
+    h1 {
+      font-size: 1.8em;
+      margin-bottom: 1em;
+      color: #4b3f2f;
+    }
+    input[type="text"] {
+      width: 80%;
+      max-width: 500px;
+      padding: 10px;
+      font-size: 16px;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+    }
+    button {
+      margin-top: 10px;
+      padding: 10px 20px;
+      font-size: 16px;
+      border: none;
+      border-radius: 8px;
+      background-color: #ffcc66;
+      color: #333;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: #ffc94d;
+    }
+    #qr {
+      margin-top: 2em;
+    }
+  </style>
+</head>
+<body>
+  <h1>Recolle QRコード生成ツール</h1>
+  <input id="urlInput" type="text" placeholder="Cloudflare のURLをここに貼り付け…" />
+  <br />
+  <button onclick="generateQR()">QRコード生成</button>
+  <div id="qr"></div>
+
+  <script>
+    const qrCode = new QRCodeStyling({
+      width: 300,
+      height: 300,
+      type: "svg",
+      image: "icon-recolle.png",
+      dotsOptions: {
+        color: "#000",
+        type: "rounded",
+      },
+      backgroundOptions: {
+        color: "#ffffff",
+      },
+      imageOptions: {
+        crossOrigin: "anonymous",
+        margin: 5,
+      },
+    });
+
+    function generateQR() {
+      const url = document.getElementById("urlInput").value;
+      if (!url.startsWith("http")) {
+        alert("有効なURLを入力してください");
+        return;
+      }
+      qrCode.update({ data: url });
+      document.getElementById("qr").innerHTML = "";
+      qrCode.append(document.getElementById("qr"));
+    }
+  </script>
+</body>
+</html>
