@@ -41,6 +41,10 @@
     #qr {
       margin-top: 2em;
     }
+    #downloadBtn {
+      display: none;
+      margin-top: 1em;
+    }
   </style>
 </head>
 <body>
@@ -49,12 +53,13 @@
   <br />
   <button onclick="generateQR()">QRコード生成</button>
   <div id="qr"></div>
+  <button id="downloadBtn" onclick="downloadQR()">QRコードをダウンロード</button>
 
   <script>
     const qrCode = new QRCodeStyling({
       width: 300,
       height: 300,
-      type: "svg",
+      type: "canvas",
       image: "icon-recolle.png",
       dotsOptions: {
         color: "#000",
@@ -78,6 +83,17 @@
       qrCode.update({ data: url });
       document.getElementById("qr").innerHTML = "";
       qrCode.append(document.getElementById("qr"));
+      document.getElementById("downloadBtn").style.display = "inline-block";
+    }
+
+    function downloadQR() {
+      const canvas = document.querySelector("#qr canvas");
+      if (canvas) {
+        const link = document.createElement("a");
+        link.download = "recolle-qr.png";
+        link.href = canvas.toDataURL("image/png");
+        link.click();
+      }
     }
   </script>
 </body>
